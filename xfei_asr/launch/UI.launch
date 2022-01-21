@@ -1,0 +1,10 @@
+<launch>
+<!-- <arg name="cmd_vel" default="/cmd_vel"/> -->
+<arg name="name" default="xfei_asr"/>
+
+<!-- <param name="cmd_vel_topic_name" value="$(arg cmd_vel)"/> -->
+
+<node name="voice_recognition_node" pkg="xfei_asr" type="iat_publish_speak" output="screen" />
+
+<node name="voice_generation_node" pkg="xfei_asr" type="tts_subscribe_speak" output="screen" />
+</launch> 
