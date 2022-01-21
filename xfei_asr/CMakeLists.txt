@@ -141,6 +141,8 @@ add_executable(iat_record src/iat_record.c src/speech_recognizer.c src/linuxrec.
 
 add_executable(iat_publish_speak src/iat_publish_speak.cpp src/speech_recognizer.c src/linuxrec.c)
 
+add_executable(UI src/main.cpp src/UI.cpp )
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(xfei_asr_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

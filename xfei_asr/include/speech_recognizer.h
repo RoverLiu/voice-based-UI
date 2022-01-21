@@ -1,11 +1,12 @@
 /*
 @file
-@brief »ùÓÚÂ¼Òô½Ó¿ÚºÍÑ¶·ÉMSC½Ó¿Ú·â×°Ò»¸öMICÂ¼ÒôÊ¶±ðµÄÄ£¿é
+@brief ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ó¿Úºï¿½Ñ¶ï¿½ï¿½MSCï¿½Ó¿Ú·ï¿½×°Ò»ï¿½ï¿½MICÂ¼ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 
 @author		taozhang9
 @date		2016/05/27
 */
-
+#ifndef __SPEECH_RECOGNIZER_H
+#define __SPEECH_RECOGNIZER_H
 
 enum sr_audsrc
 {
@@ -61,3 +62,4 @@ void sr_uninit(struct speech_rec * sr);
 #ifdef __cplusplus
 } /* extern "C" */	
 #endif /* C++ */
+#endif
