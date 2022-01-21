@@ -11,6 +11,8 @@
 #include "msp_errors.h"
 #include "speech_recognizer.h"
 #include <iconv.h>
+#include "iat_publish_speak.h"
+
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -174,7 +176,7 @@ static void demo_mic(const char* session_begin_params)
  * helper thread: ui(keystroke detection)
  */
 
-void WakeUp(const std_msgs::String::ConstPtr& msg)
+void WakeUp()
 {
     printf("waking up\r\n");
    // printf("%s", *msg->data.c_str());
@@ -183,71 +185,39 @@ void WakeUp(const std_msgs::String::ConstPtr& msg)
 }
 
 
-int main(int argc, char* argv[])
+std_msgs::String SpeechToTextConvention()
 {
+	std_msgs::String msg;
 
-    ros::init(argc, argv, "xfspeech");
-    ros::NodeHandle n;
-    ros::Publisher pub = n.advertise<std_msgs::String>("xfspeech", 1000);
-    ros::Rate loop_rate(10);
+	if (flag){
 
-    ros::Subscriber sbu = n.subscribe("xfwakeup", 1000, WakeUp);
-    ros::Publisher pub1 = n.advertise<std_msgs::String>("xfwords", 1000);
-    ros::Publisher pub2 = n.advertise<std_msgs::String>("xfspeech", 1000);
+		const char* session_begin_params =
+			"sub = iat, domain = iat, language = zh_cn, "
+			"accent = mandarin, sample_rate = 16000, "
+			"result_type = plain, result_encoding = utf8";
 
-    int count=0;
-    while(ros::ok())
-    {
+		printf("Demo recognizing the speech from microphone\n");
+		printf("Speak in 15 seconds\n");
 
-        if (flag){
+		demo_mic(session_begin_params);
 
-	        int ret = MSP_SUCCESS;
-    	    const char* login_params = "appid = 1638a95e, work_dir = .";
+		printf("15 sec passed\n");
+	
+		flag=0;
+		MSPLogout();
+	}
 
-	        const char* session_begin_params =
-		        "sub = iat, domain = iat, language = zh_cn, "
-		        "accent = mandarin, sample_rate = 16000, "
-		        "result_type = plain, result_encoding = utf8";
+	if(flag_ok){
+		flag_ok=0;
+		msg.data = g_result;
+	}
 
-	        ret = MSPLogin(NULL, NULL, login_params);
-		    if(MSP_SUCCESS != ret){
-                MSPLogout();
-                printf("MSPLogin failed , Error code %d.\n",ret);
-            }
+	if(flag_no){
+		flag_no=0;
+		std_msgs::String msg;
+		msg.data = "Sorry Please do it again";
+	}
 
-            printf("Demo recognizing the speech from microphone\n");
-		    printf("Speak in 15 seconds\n");
+	return msg;
 
-		    demo_mic(session_begin_params);
-
-            printf("15 sec passed\n");
-        
-            flag=0;
-            MSPLogout();
-        }
-
-        if(flag_ok){
-            flag_ok=0;
-            std_msgs::String msg;
-            msg.data = g_result;
-            pub2.publish(msg);
-        }
-
-        if(flag_no){
-            flag_no=0;
-            std_msgs::String msg;
-            msg.data = "Sorry Please do it again";
-            pub1.publish(msg);
-        }
-
-        ros::spinOnce();
-        loop_rate.sleep();
-        count++;
-        printf("c:%d \r\n", count);
-    }
-
-exit:
-	MSPLogout(); // Logout...
-
-	return 0;
 }

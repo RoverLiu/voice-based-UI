@@ -99,9 +99,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+ INCLUDE_DIRS include
 #  LIBRARIES xfei_asr
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+ CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -132,16 +132,24 @@ add_executable(asr_sample src/asr_sample.c)
 add_executable(iat_sample src/iat_sample.c)
 add_executable(tts_sample src/tts_sample.c)
 
-add_executable(tts_subscribe_speak src/tts_subscribe_speak.cpp)
+# add_executable(tts_subscribe_speak src/tts_subscribe_speak.cpp)
 #add_executable(sch_speak src/sch_speak.c)
 #add_executable(sch_text src/sch_text.c)
 #add_executable(speech_recognizer src/speech_recognizer.c)
 #add_executable(linuxrec src/linuxrec.c)
 add_executable(iat_record src/iat_record.c src/speech_recognizer.c src/linuxrec.c)
 
-add_executable(iat_publish_speak src/iat_publish_speak.cpp src/speech_recognizer.c src/linuxrec.c)
+# add_executable(iat_publish_speak src/iat_publish_speak.cpp src/speech_recognizer.c src/linuxrec.c)
 
-add_executable(UI src/main.cpp src/UI.cpp )
+add_executable(UI 
+src/main.cpp 
+src/UI.cpp
+src/iat_publish_speak.cpp 
+src/speech_recognizer.c 
+src/linuxrec.c
+src/tts_subscribe_speak.cpp
+
+) 
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -161,17 +169,20 @@ target_link_libraries(
    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
  )
 
-target_link_libraries(
-   tts_subscribe_speak
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
- )
 
-target_link_libraries(
-   iat_publish_speak
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
- )
+
+
+# target_link_libraries(
+#    tts_subscribe_speak
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#  )
+ 
+# target_link_libraries(
+#    iat_publish_speak
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+#  )
 
 #target_link_libraries(
 #   sch_speak
@@ -220,7 +231,11 @@ target_link_libraries(
  )
 
 
-
+ target_link_libraries(
+  UI
+  ${catkin_LIBRARIES} 
+  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+)
 
 
 #############

@@ -10,7 +10,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <sstream>
+#include <sys/types.h>
+#include <sys/stat.h>
 
+#include "tts_subscribe_speak.h"
 
 #include "qtts.h"
 #include "msp_cmn.h"
@@ -19,9 +23,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
-#include <sstream>
-#include <sys/types.h>
-#include <sys/stat.h>
+
 
 
 /* wav音频头部格式 */
@@ -186,7 +188,7 @@ void toExit()
     MSPLogout(); //退出登录
 }
 
-int main(int argc, char* argv[])
+int main_1234(int argc, char* argv[])
 {
 	int         ret                  = MSP_SUCCESS;
 	const char* login_params         = "appid = 1638a95e, work_dir = .";//登录参数,appid与msc库绑定,请勿随意改动
