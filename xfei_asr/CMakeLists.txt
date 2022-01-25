@@ -148,8 +148,13 @@ src/iat_publish_speak.cpp
 src/speech_recognizer.c 
 src/linuxrec.c
 src/tts_subscribe_speak.cpp
-
+src/asr_record.c 
+src/play_audio.c 
+src/awaken.c
 ) 
+
+link_directories(libs/)
+add_executable(awaken_test src/asr_record.c src/linuxrec.c src/play_audio.c src/speech_recognizer.c src/main.c src/awaken.c)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -234,8 +239,21 @@ target_link_libraries(
  target_link_libraries(
   UI
   ${catkin_LIBRARIES} 
-  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+  # /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+  #  libmsc.so
+  libasound.so
 )
+
+target_link_libraries(awaken_test
+  ${catkin_LIBRARIES}
+  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+  #  libmsc.so
+  libasound.so
+  #  libw_ivw.so
+ )
 
 
 #############

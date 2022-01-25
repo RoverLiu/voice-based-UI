@@ -204,7 +204,7 @@ std_msgs::String SpeechToTextConvention()
 		printf("15 sec passed\n");
 	
 		flag=0;
-		MSPLogout();
+		// MSPLogout();
 	}
 
 	if(flag_ok){

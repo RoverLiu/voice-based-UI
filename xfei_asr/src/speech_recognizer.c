@@ -10,11 +10,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "speech_recognizer.h"
-#include "qisr.h"
-#include "msp_cmn.h"
-#include "msp_errors.h"
-#include "linuxrec.h"
+
+#include "../include/msc/qisr.h"
+#include "../include/msc/msp_cmn.h"
+#include "../include/msc/msp_errors.h"
+
+#include "../include/asr_record/linuxrec.h"
+#include "../include/asr_record/speech_recognizer.h"
 
 
 #define SR_DBGON 1
@@ -25,7 +27,7 @@
 #endif
 
 #define DEFAULT_SESSION_PARA \
-	 "sub = iat, domain = iat, language = zh_cn, accent = mandarin, sample_rate = 16000, result_type = plain, result_encoding = gb2312"
+	 "sub = iat, domain = iat, language = zh_cn, accent = mandarin, sample_rate = 16000, result_type = plain, result_encoding = UTF-8"
 
 #define DEFAULT_FORMAT		\
 {\
@@ -78,7 +80,7 @@ static void end_sr_on_vad(struct speech_rec *sr)
 
 	if (sr->aud_src == SR_MIC)
 		stop_record(sr->recorder);	
-
+	sr->rec_stat = MSP_AUDIO_SAMPLE_CONTINUE;
 	while(sr->rec_stat != MSP_REC_STATUS_COMPLETE ){
 		rslt = QISRGetResult(sr->session_id, &sr->rec_stat, 0, &errcode);
 		if (rslt && sr->notif.on_result)
@@ -184,7 +186,7 @@ int sr_init_ex(struct speech_rec * sr, const char * session_begin_params,
 		sr_dbg("mem alloc failed\n");
 		return -E_SR_NOMEM;
 	}
-	strncpy(sr->session_begin_params, session_begin_params, param_size - 1);
+	strncpy(sr->session_begin_params, session_begin_params, param_size);
 
 	sr->notif = *notify;
 	
@@ -241,7 +243,7 @@ int sr_start_listening(struct speech_rec *sr)
 		return -E_SR_ALREADY;
 	}
 
-	session_id = QISRSessionBegin(NULL, sr->session_begin_params, &errcode); //听写不需要语法，第一个参数为NULL
+	session_id = QISRSessionBegin(NULL, sr->session_begin_params, &errcode); //脤媒脨沤虏禄脨猫脪陋脫茂路拧拢卢碌脷脪禄啪枚虏脦脢媒脦陋NULL
 	if (MSP_SUCCESS != errcode)
 	{
 		sr_dbg("\nQISRSessionBegin failed! error code:%d\n", errcode);
@@ -271,7 +273,7 @@ int sr_start_listening(struct speech_rec *sr)
 }
 
 /* after stop_record, there are still some data callbacks */
-static void wait_for_rec_stop(struct recorder *rec, unsigned int timeout_ms)
+void wait_for_rec_stop(struct recorder *rec, unsigned int timeout_ms)
 {
 	while (!is_record_stopped(rec)) {
 		Sleep(1);
@@ -306,7 +308,7 @@ int sr_stop_listening(struct speech_rec *sr)
 		QISRSessionEnd(sr->session_id, "write err");
 		return ret;
 	}
-
+	sr->rec_stat = 2;
 	while (sr->rec_stat != MSP_REC_STATUS_COMPLETE) {
 		rslt = QISRGetResult(sr->session_id, &sr->rec_stat, 0, &ret);
 		if (MSP_SUCCESS != ret)	{
@@ -340,7 +342,7 @@ int sr_write_audio_data(struct speech_rec *sr, char *data, unsigned int len)
 	}
 	sr->audio_status = MSP_AUDIO_SAMPLE_CONTINUE;
 
-	if (MSP_REC_STATUS_SUCCESS == sr->rec_stat) { //已经有部分听写结果
+	if (MSP_REC_STATUS_SUCCESS == sr->rec_stat) { //脪脩鸥颅脫脨虏驴路脰脤媒脨沤艙谩鹿没
 		rslt = QISRGetResult(sr->session_id, &sr->rec_stat, 0, &ret);
 		if (MSP_SUCCESS != ret)	{
 			sr_dbg("\nQISRGetResult failed! error code: %d\n", ret);

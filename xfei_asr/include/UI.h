@@ -21,6 +21,8 @@
 #include <sstream>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unordered_map>
+ #include <list>
 
 #include "qtts.h"
 #include "qisr.h"
@@ -34,6 +36,13 @@
 #include "iat_publish_speak.h"
 #include "tts_subscribe_speak.h"
 
+#include "asr_record/asr_record.h"
+#include "awaken/awaken.h"
+#include "asr_record/play_audio.h"
+
+#define MAX_SIZE 100
+
+
 //----------------------------------------UI--------------------------------------
 class UI 
 {
@@ -45,13 +54,10 @@ class UI
         // methods
         void run_UI();      //run the UI
         
-
-
-
-
+        void Stop();        // stop and log out
 
     private:
-        // date
+        // data
         // ROS NodeHandle
         ros::NodeHandle _nh;
         ros::NodeHandle _nh_priv;
@@ -63,7 +69,29 @@ class UI
 
         
         int         ret                  = MSP_SUCCESS;
-        const char* login_params         = "appid = 1638a95e, work_dir = .";//登录参数,appid与msc库绑定,请勿随意改动
+
+        // variables below might be changed based on the condition
+        const char* login_params         = "appid = 1638a95e, work_dir = ., engine_start = ivw, ivw_res_path =fo|/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";//登录参数,appid与msc库绑定,请勿随意改动
+        const char *ssb_param            = "sst=wakeup, ivw_threshold=0:1450,ivw_res_path =fo|/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";
+        
+        // maximum wake up time
+        const int max_wakeup = 3 ;
+        // // all potential names for snickers
+        // enum snickers {
+        //     snickers
+        // };
+
+        // // all potential names for kitkat
+        // enum kitkat {
+        //     kitkat
+        // };
+
+        std::unordered_map<char, std::list<std::string>> _chocolate_map = {
+            {1,{"kitkat","kidkat","kitkad", "take care"}}, // potential kitkat
+            {2,{"snickers","snikers","snicker", "speaker", "sneaker", "snake", "brown"}}  // potential snickers
+        };
+
+        
         /*
         * rdn:           合成音频数字发音方式
         * volume:        合成音频的音量
@@ -94,6 +122,14 @@ class UI
 
         // convert speech to text
         void ConvertSpeechToTextCallback(const std_msgs::String::ConstPtr& msg);
+
+        // ask user for chocolate brand and provide the service 
+        void Ask_and_Response();
+
+        // check whether there is a key word in the sentence
+        char check_keywords(std::string sentence);
+
+
 };
 
 

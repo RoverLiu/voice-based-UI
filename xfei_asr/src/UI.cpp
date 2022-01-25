@@ -31,6 +31,10 @@
 #include "iat_publish_speak.h"
 #include "tts_subscribe_speak.h"
 
+int16_t g_order = ORDER_NONE;
+BOOL g_is_order_publiced = FALSE;
+UserData asr_data;
+
 /**
  * @brief Construct a new UI::UI object
  * Set topics for ROS
@@ -67,6 +71,16 @@ UI::~UI() {
  * 
  */
 void UI::init() {
+
+    // get current address
+    char current_absolute_path[MAX_SIZE];
+    //获取当前程序绝对路径
+    int cnt = readlink("/proc/self/exe", current_absolute_path, MAX_SIZE);
+    getcwd(current_absolute_path, MAX_SIZE);
+    printf("current absolute path:%s\n", current_absolute_path);
+
+    //init iflytek
+    int ret = 0 ;
     /* 用户登录 */
 	ret = MSPLogin(NULL, NULL, login_params);//第一个参数是用户名，第二个参数是密码，第三个参数是登录参数，用户名和密码可在http://open.voicecloud.cn注册获取
 	if (MSP_SUCCESS != ret)
@@ -76,8 +90,27 @@ void UI::init() {
         toExit();
 	}
 
+    memset(&asr_data, 0, sizeof(UserData));
+    printf("构建离线识别语法网络...\n");
+    ret = build_grammar(&asr_data);  //第一次使用某语法进行识别，需要先构建语法网络，获取语法ID，之后使用此语法进行识别，无需再次构建
+    if (MSP_SUCCESS != ret) {
+        printf("构建语法调用失败!\n");
+        Stop();
+    }
+
+    while (1 != asr_data.build_fini) {
+        usleep(300 * 1000);
+    }
+    if (MSP_SUCCESS != asr_data.errcode) {
+        Stop();
+    }
+    
+    // message for user - init succeed
     printf("\n###########################################################################\n");
 	printf("## 语音合成（Text To Speech，TTS） start \n");
+	printf("## 语音识别 start \n");
+    printf("## 离线识别语法网络构建完成，开始识别...\n");
+    printf("## UI Ready\n");
 	printf("###########################################################################\n\n");
 }
 
@@ -109,13 +142,13 @@ void UI::MsgSpeakOut(const char* text) {
 
     /* 文本合成 */
     printf("\n###########################################################################\n");
-    printf("开始合成 ...\n");
+    printf("Generate msg ...\n");
     ret = text_to_speech(text, filename, session_begin_params);
     if (MSP_SUCCESS != ret)
     {
         printf("text_to_speech failed, error code: %d.\n", ret);
     }
-    printf("合成完毕\n");
+    printf("Msg Broadcasting\n");
 
 
     unlink("/tmp/cmd");  
@@ -127,6 +160,11 @@ void UI::MsgSpeakOut(const char* text) {
 
 }
 
+/**
+ * @brief convert speech to text
+ * 
+ * @param msg No use, any message will wake up
+ */
 void UI::ConvertSpeechToTextCallback(const std_msgs::String::ConstPtr& msg) {
 
     std_msgs::String result;
@@ -137,4 +175,136 @@ void UI::ConvertSpeechToTextCallback(const std_msgs::String::ConstPtr& msg) {
 
     word_heard_pub.publish(result);
 
+}
+
+/**
+ * @brief log out and end service
+ * 
+ */
+void UI::Stop() {
+    MSPLogout();
+    printf("请按任意键退出...\n");
+    getchar();
+    exit(0);
+}
+
+/**
+ * @brief key method for UI (modify here for ur own)
+ * 
+ */
+void UI::run_UI() {
+    while (true)
+    {
+        run_ivw(NULL, ssb_param); 
+        printf("wake up\n");
+
+        // speak and response (wake up)
+        if(g_is_awaken_succeed){
+            printf("begin to ask and response\n");
+            // run_asr(&asr_data);
+            Ask_and_Response();
+
+            g_is_awaken_succeed = FALSE;
+        }
+        printf("%d:%d\n", g_is_order_publiced, g_order);
+
+        // failes
+        if(g_is_order_publiced == FALSE){
+            if(g_order==ORDER_BACK_TO_CHARGE){
+                printf("%d\n", g_order);
+                play_wav((char*)concat(PACKAGE_PATH, "audios/back_to_charge.wav"));        
+            }
+            if(g_order == ORDER_FACE_DETECTION){
+                printf("%d\n", g_order);
+                play_wav((char*)concat(PACKAGE_PATH, "audios/operating_face_rec.wav"));
+            }
+            g_is_order_publiced = TRUE;
+        }
+
+    }
+    
+}
+
+/**
+ * @brief Define how UI response with different questions
+ * 
+ */
+void UI::Ask_and_Response() {
+    MsgSpeakOut("Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?");
+
+    int count = 0;
+
+    while (count < max_wakeup)
+    {
+        // take user speech
+        std_msgs::String result;
+        
+        WakeUp();
+
+        result = SpeechToTextConvention();
+
+        std::cout<<result.data<<std::endl;
+
+        int chocolate_res = check_keywords(result.data);
+
+        if (chocolate_res == 1) {
+            MsgSpeakOut("I heard you want a kitkat. I will pick it for you!");
+            // ask for service
+
+
+
+
+            break;
+        } else if (chocolate_res == 2)
+        {
+            MsgSpeakOut("I heard you want a snickers. I will pick it for you!");
+            // ask for service
+
+
+
+
+
+            break;
+        } else {
+            MsgSpeakOut("Sorry, I have missed what you said. Could you please repeat that again?");
+        }
+        
+
+        count += 1;
+    }
+    
+
+    
+    
+    
+    return;
+}
+
+/**
+ * @brief check whether there is a keyword in the sentence
+ * 
+ * @param keyworkds sentence to check
+ * @return the type of chocolate 
+ * 0: no choclate given
+ * 1: brand kitkat
+ * 2: brand snickers
+ */
+char UI::check_keywords(std::string sentence) {
+    // std::string str = std::string(sentence);
+
+    // check each brand 
+    for (std::unordered_map<char, std::list<std::string>>::iterator i = _chocolate_map.begin(); i != _chocolate_map.end(); i++) {
+        std::cout << i->first << std::endl;
+        std::list<std::string> temp = i->second;
+
+        for (auto j = temp.begin(); j != temp.end(); ++j) {
+            std::cout << *j << std::endl;
+
+            size_t found = sentence.find(*j);
+            if (found != std::string::npos) {
+                return i->first;    
+            }
+        }
+    }
+    return 0;
 }

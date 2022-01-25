@@ -13,8 +13,8 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <pthread.h>
-#include "formats.h"
-#include "linuxrec.h"
+#include "../include/asr_record/formats.h"
+#include "../include/asr_record/linuxrec.h"
 
 #define DBG_ON 1
 

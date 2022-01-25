@@ -12,6 +12,8 @@ int main(int argc, char* argv[]) {
     ros::NodeHandle nh_priv( "~" );
 
     UI my_UI(nh, nh_priv);
+    
+    my_UI.run_UI();
 
     ros::spin();
 
@@ -22,9 +24,5 @@ int main(int argc, char* argv[]) {
 
     
 
-    exit:
-    	printf("按任意键退出 ...\n");
-    	getchar();
-    	MSPLogout(); //退出登录
-    return 0;
+    my_UI.Stop();
 }
