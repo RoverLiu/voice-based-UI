@@ -1,17 +1,19 @@
 ﻿#BNF+IAT 1.0 UTF-8;
-!grammar call;
+!grammar getChocolate;
 
-/*!slot <want>;
-!slot <dialpre>;
+!slot <want>;
+!slot <chocolate>;
+
+!start <chocolateCommand>;
+<chocolateCommand>:[<want>]<chocolate>;
+
+<want>:"I want"|"I would like"|"I prefer"|"Can I have"|"give me"|"I need";
+
+<chocolate>:snickers!id(1)|kitkat!id(2)|kidkat!id(2)|kitcat!id(2)|kidcat!id(2);
+
+/*
 !slot <dialsuf>;
-!slot <contact>;
 
-!start <callstart>;
-<callstart>:[<want>]<dial>;
-
-<want>:我想|我要|请|帮我|我想要|请帮我|要;
-
-<dial>:<dialpre><contact>[<dialsuf>];
 
 <dialpre>:打电话给!id(10001)|打给!id(10001)|拨打!id(10001)|拨打电话给!id(10001)|呼叫!id(10001)|
 打一个电话给!id(10001)|打个电话给!id(10001)|给|拨通!id(10001)|
@@ -23,7 +25,7 @@
 的办公电话!id(10001)|的移动号码!id(10001)|的联通号码!id(10001)|
 的电信号码!id(10001)|客服电话!id(10001);
 
-<contact>:丁伟;*/
+<contact>:丁伟;
 
 
 !slot <todo>;
@@ -38,6 +40,7 @@
 <order>:人脸检测!id(21401)|检测人脸!id(21401)|
 面部识别!id(21402)|识别身份!id(21402)|人脸识别!id(21402)|身份识别!id(21402)|
 没电了!id(21403)|充电!id(21403)|快没电了!id(21403);
+*/
 
 
 

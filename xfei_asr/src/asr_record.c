@@ -180,10 +180,10 @@ void on_result(const char *result, char is_last)
 		}
 		strncat(g_result, result, size);
 		show_result(g_result, is_last);
-    g_order = get_order(g_result);
-    if(g_order > ORDER_NONE){
-      g_is_order_publiced = FALSE;
-    }
+		g_order = get_order(g_result);
+		if(g_order > ORDER_NONE){
+			g_is_order_publiced = FALSE;
+		}
 	}
 }
 void on_speech_begin()
