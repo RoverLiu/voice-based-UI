@@ -155,24 +155,32 @@ static int16_t get_order(char *_xml_result){
 		return ORDER_ERROR;
 	}
 
+	// printf("message format: %s\n",_xml_result);
+
 	//get confidence
 	char *str_con_first = strstr(_xml_result,"<confidence>");
 	char *str_con_second = strstr(str_con_first,"</confidence"); 
 	char str_confidence[4] = {'\0', '\0', '\0', '\0'};
 	strncpy(str_confidence, str_con_first+12, str_con_second - str_con_first - 12);
 	int confidence = atoi(str_confidence);
+	// printf("confidence idenfified format: %d\n",confidence);
 
 	if(confidence > CONFIDENCE_THRESHOLD){
-		char *str_todo = strstr(str_con_second, "id=");
+		printf("I am confident with the result!\n");
+		char *str_todo = strstr(str_con_second, "chocolate id=");
 		char *str_todo_back = strstr(str_todo, ">");
-		char str_todo_id[6] = {'\0', '\0', '\0', '\0', '\0', '\0'};
-		strncpy(str_todo_id, str_todo+4, str_todo_back - str_todo - 5);
+
+		// printf("two sting data: %s\n%s\n",str_todo, str_todo_back);
+		// printf("size:%d\n", str_todo_back - str_todo - 14);
+
+		char str_todo_id[4] = {'\0', '\0', '\0', '\0'};
+		strncpy(str_todo_id, str_todo+14, str_todo_back - str_todo - 15);
 		int todo_id = atoi(str_todo_id);
 		int order_id;
 
 		order_id = todo_id;
 		printf("order ID: %d\n", order_id);
-
+		return order_id;
 
 		// if(todo_id < 21400){
 		// 	char *str_order = strstr(str_todo_back, "id=");
@@ -191,6 +199,8 @@ static int16_t get_order(char *_xml_result){
 		// 	return ORDER_FACE_DETECTION;
 		// }
 	}else{
+		printf("I am not confident with the result!\n");
+
 		return ORDER_NONE;
 	}
 }
@@ -222,7 +232,7 @@ void on_result(const char *result, char is_last)
 			}
 		}
 		strncat(g_result, result, size);
-		show_result(g_result, is_last);
+		// show_result(g_result, is_last);
 		order_result = get_order(g_result);
 	}
 }

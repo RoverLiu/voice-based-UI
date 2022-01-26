@@ -196,9 +196,13 @@ void UI::Stop() {
 void UI::run_UI() {
     while (true)
     {
-        run_ivw(NULL, ssb_param); 
-        printf("wake up\n");
-        Ask_and_Response();
+        run_ivw(NULL, ssb_param);
+        if(g_is_awaken_succeed){
+            printf("wake up\n");
+            Ask_and_Response();
+        }
+
+
 
         // // speak and response (wake up)
         // if(g_is_awaken_succeed){
@@ -330,7 +334,7 @@ char UI::check_chocolate() {
 		printf("离线语法识别出错: %d \n", ret);
 		Stop();
 	}
-    std::cout << "result from cpp" << order_result << std::endl;
+    std::cout << "result from cpp " << order_result << std::endl;
     return order_result;
     
 }
