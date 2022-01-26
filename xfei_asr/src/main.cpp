@@ -13,9 +13,11 @@ int main(int argc, char* argv[]) {
 
     UI my_UI(nh, nh_priv);
     
+    // my_UI.MsgSpeakOut("1.wav", 1);
+
     my_UI.run_UI();
 
-    ros::spin();
+    // ros::spin();
 
 
     // test

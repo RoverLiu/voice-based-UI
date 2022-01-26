@@ -53,6 +53,9 @@ class UI
 
         // methods
         void run_UI();      //run the UI
+
+        void MsgSpeakOut(const char* text, int state);
+
         
         void Stop();        // stop and log out
 
@@ -118,7 +121,7 @@ class UI
         bool KeywordReceived();
         
         // convert the message to speech
-        void MsgSpeakOut(const char* text);
+        // void MsgSpeakOut(const char* text, int state);
 
         // convert speech to text
         void ConvertSpeechToTextCallback(const std_msgs::String::ConstPtr& msg);

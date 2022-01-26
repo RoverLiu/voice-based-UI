@@ -31,6 +31,7 @@
 #include "std_msgs/String.h"
 #include "iat_publish_speak.h"
 #include "tts_subscribe_speak.h"
+#include "asr_record/play_audio.h"
 
 // int16_t g_order = ORDER_NONE;
 // BOOL g_is_order_publiced = FALSE;
@@ -127,38 +128,58 @@ void UI::VoiceRegenerationCallback(const std_msgs::String::ConstPtr& msg) {
     std::cout<<"I heard :"<<msg->data.c_str()<<std::endl;
     text = msg->data.c_str(); 
     
-    MsgSpeakOut(text);
+    MsgSpeakOut(text, 0);
 }
 
 /**
  * @brief Regenerate the voice by the given text message
  * 
  * @param text 
+ * @param state 0: generate message online, 1: message already exist, broadcast it
  */
-void UI::MsgSpeakOut(const char* text) {
+void UI::MsgSpeakOut(const char* text, int state) {
     char cmd[2000];
     int         ret                  = MSP_SUCCESS;
     const char* session_begin_params = "voice_name = xiaoyan, text_encoding = utf8, sample_rate = 16000, speed = 50, volume = 50, pitch = 50, rdn = 2";
     const char* filename             = "tts_sample.wav"; //合成的语音文件名称
 
-    /* 文本合成 */
     printf("\n###########################################################################\n");
-    printf("Generate msg ...\n");
-    ret = text_to_speech(text, filename, session_begin_params);
-    if (MSP_SUCCESS != ret)
-    {
-        printf("text_to_speech failed, error code: %d.\n", ret);
+    if (state == 0) {
+        /* 文本合成 */
+        printf("Generate msg ...\n");
+        ret = text_to_speech(text, filename, session_begin_params);
+        if (MSP_SUCCESS != ret)
+        {
+            printf("text_to_speech failed, error code: %d.\n", ret);
+        }
+        printf("Msg Broadcasting\n");
+    
+
+        unlink("/tmp/cmd");  
+        mkfifo("/tmp/cmd", 0777);  
+        popen("mplayer -quiet -slave -input file=/tmp/cmd 'tts_sample.wav'","r");
+        sleep(30);
+    } else {
+        std::cout<<"enter"<<std::endl;
+        std::string absolute_address = "/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/audios/";
+        std::string combined = absolute_address + text;
+        
+        int n = combined.length();
+ 
+        // declaring character array
+        char char_array[n + 1];
+    
+        // copying the contents of the
+        // string to char array
+        strcpy(char_array, combined.c_str());
+
+        play_wav(char_array);
     }
-    printf("Msg Broadcasting\n");
 
+    
 
-    unlink("/tmp/cmd");  
-    mkfifo("/tmp/cmd", 0777);  
-    popen("mplayer -quiet -slave -input file=/tmp/cmd 'tts_sample.wav'","r");
-    sleep(30);
     printf("Mplayer Run Success\n");
     printf("\n###########################################################################\n");
-
 }
 
 /**
@@ -236,7 +257,7 @@ void UI::run_UI() {
  * 
  */
 void UI::Ask_and_Response() {
-    // MsgSpeakOut("Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?");
+    MsgSpeakOut("welcome.wav", 1);
     std::cout<< "Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?" <<std::endl;
 
     int count = 0;
@@ -262,8 +283,7 @@ void UI::Ask_and_Response() {
 
         if (chocolate_res == 1) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
-
-            // MsgSpeakOut("I heard you want a kitkat. I will pick it for you!");
+            MsgSpeakOut("kitkat.wav", 1);
             // ask for service
 
 
@@ -273,8 +293,8 @@ void UI::Ask_and_Response() {
         } else if (chocolate_res == 2)
         {
             std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
+            MsgSpeakOut("snickers.wav", 1);
 
-            // MsgSpeakOut("I heard you want a snickers. I will pick it for you!");
             // ask for service
 
 
@@ -283,7 +303,7 @@ void UI::Ask_and_Response() {
 
             break;
         } else {
-            // MsgSpeakOut("Sorry, I have missed what you said. Could you please repeat that again?");
+            MsgSpeakOut("sorry.wav", 1);
             std::cout<<"Sorry, I have missed what you said. Could you please repeat that again?"<<std::endl;
 
         }

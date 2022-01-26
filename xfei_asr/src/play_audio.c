@@ -131,6 +131,7 @@ int set_pcm_play(FILE *fp, WavHeader *wav_header)
 
 
 int play_wav(char *path){
+    printf("current path: %s\n",path);
     FILE *fp;
     WavHeader wav_header;
     fp = fopen(path, "rb");
