@@ -36,7 +36,7 @@
 #include "iat_publish_speak.h"
 #include "tts_subscribe_speak.h"
 
-#include "asr_record/asr_record.h"
+// #include "asr_record/asr_record.h"
 #include "awaken/awaken.h"
 #include "asr_record/play_audio.h"
 
@@ -129,6 +129,8 @@ class UI
         // check whether there is a key word in the sentence
         char check_keywords(std::string sentence);
 
+        // identify the audio and check the chocolate
+        char check_chocolate();
 
 };
 

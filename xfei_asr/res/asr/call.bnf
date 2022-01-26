@@ -9,7 +9,7 @@
 
 <want>:"I want"|"I would like"|"I prefer"|"Can I have"|"give me"|"I need";
 
-<chocolate>:snickers!id(1)|kitkat!id(2)|kidkat!id(2)|kitcat!id(2)|kidcat!id(2);
+<chocolate>:snickers!id(1)|kitkat!id(2);
 
 /*
 !slot <dialsuf>;

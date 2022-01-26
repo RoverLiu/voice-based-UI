@@ -128,16 +128,16 @@ include_directories(
 # add_dependencies(xfei_asr ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(asr_sample src/asr_sample.c)
-add_executable(iat_sample src/iat_sample.c)
-add_executable(tts_sample src/tts_sample.c)
+# add_executable(asr_sample src/asr_sample.c)
+# add_executable(iat_sample src/iat_sample.c)
+# add_executable(tts_sample src/tts_sample.c)
 
 # add_executable(tts_subscribe_speak src/tts_subscribe_speak.cpp)
 #add_executable(sch_speak src/sch_speak.c)
 #add_executable(sch_text src/sch_text.c)
 #add_executable(speech_recognizer src/speech_recognizer.c)
 #add_executable(linuxrec src/linuxrec.c)
-add_executable(iat_record src/iat_record.c src/speech_recognizer.c src/linuxrec.c)
+# add_executable(iat_record src/iat_record.c src/speech_recognizer.c src/linuxrec.c)
 
 # add_executable(iat_publish_speak src/iat_publish_speak.cpp src/speech_recognizer.c src/linuxrec.c)
 
@@ -148,13 +148,20 @@ src/iat_publish_speak.cpp
 src/speech_recognizer.c 
 src/linuxrec.c
 src/tts_subscribe_speak.cpp
-src/asr_record.c 
+# src/asr_record.c 
+src/asr_offline_record_sample.c 
 src/play_audio.c 
 src/awaken.c
 ) 
 
-link_directories(libs/)
-add_executable(awaken_test src/asr_record.c src/linuxrec.c src/play_audio.c src/speech_recognizer.c src/main.c src/awaken.c)
+# link_directories(libs/)
+# # add_executable(awaken_test src/asr_record.c src/linuxrec.c src/play_audio.c src/speech_recognizer.c src/main.c src/awaken.c)
+# add_executable(asr_offline_test 
+# src/linuxrec.c 
+# src/play_audio.c 
+# src/speech_recognizer.c 
+# src/asr_offline_record_sample.c 
+# src/awaken.c)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -162,17 +169,17 @@ add_executable(awaken_test src/asr_record.c src/linuxrec.c src/play_audio.c src/
 
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(
-   asr_sample
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
- )
+# target_link_libraries(
+#    asr_sample
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#  )
 
-target_link_libraries(
-   iat_sample
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
- )
+# target_link_libraries(
+#    iat_sample
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#  )
 
 
 
@@ -201,11 +208,11 @@ target_link_libraries(
 #   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 # )
 
-target_link_libraries(
-   tts_sample
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
- )
+# target_link_libraries(
+#    tts_sample
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#  )
 
 #target_link_libraries(
 #   speech_recognizer
@@ -227,13 +234,13 @@ target_link_libraries(
 #   linuxrec
 # )
 
-target_link_libraries(
-   iat_record
-   ${catkin_LIBRARIES} 
-   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
-   #linuxrec
-   #speech_recognizer  
- )
+# target_link_libraries(
+#    iat_record
+#    ${catkin_LIBRARIES} 
+#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+#    #linuxrec
+#    #speech_recognizer  
+#  )
 
 
  target_link_libraries(
@@ -246,15 +253,24 @@ target_link_libraries(
   libasound.so
 )
 
-target_link_libraries(awaken_test
-  ${catkin_LIBRARIES}
-  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
-  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
-  #  libmsc.so
-  libasound.so
-  #  libw_ivw.so
- )
+# target_link_libraries(awaken_test
+#   ${catkin_LIBRARIES}
+#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+#   #  libmsc.so
+#   libasound.so
+#   #  libw_ivw.so
+# )
 
+# target_link_libraries(asr_offline_test
+#   ${catkin_LIBRARIES}
+#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+#   #  libmsc.so
+#   libasound.so
+#   #  libw_ivw.so
+#  )
+ 
 
 #############
 ## Install ##

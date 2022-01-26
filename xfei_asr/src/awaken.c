@@ -8,10 +8,13 @@
 # include "../include/msc/qivw.h"
 #include "../include/msc/msp_errors.h"
 
-#include "../include/asr_record/asr_record.h"
+// #include "../include/asr_record/asr_record.h"
 #include "../include/asr_record/formats.h"
 #include "../include/asr_record/linuxrec.h"
 #include "../include/asr_record/speech_recognizer.h"
+#include "../include/awaken/awaken.h"
+#include "../include/asr_record/asr_offline_record_sample.h"
+
 
 
 

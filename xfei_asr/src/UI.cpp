@@ -25,14 +25,15 @@
 #include "msp_errors.h"
 #include "speech_recognizer.h"
 #include "UI.h"
+#include "asr_record/asr_offline_record_sample.h"
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "iat_publish_speak.h"
 #include "tts_subscribe_speak.h"
 
-int16_t g_order = ORDER_NONE;
-BOOL g_is_order_publiced = FALSE;
+// int16_t g_order = ORDER_NONE;
+// BOOL g_is_order_publiced = FALSE;
 UserData asr_data;
 
 /**
@@ -197,29 +198,30 @@ void UI::run_UI() {
     {
         run_ivw(NULL, ssb_param); 
         printf("wake up\n");
+        Ask_and_Response();
 
-        // speak and response (wake up)
-        if(g_is_awaken_succeed){
-            printf("begin to ask and response\n");
-            // run_asr(&asr_data);
-            Ask_and_Response();
+        // // speak and response (wake up)
+        // if(g_is_awaken_succeed){
+        //     printf("begin to ask and response\n");
+        //     // run_asr(&asr_data);
+        //     Ask_and_Response();
 
-            g_is_awaken_succeed = FALSE;
-        }
-        printf("%d:%d\n", g_is_order_publiced, g_order);
+        //     g_is_awaken_succeed = FALSE;
+        // }
+        // printf("%d:%d\n", g_is_order_publiced, g_order);
 
-        // failes
-        if(g_is_order_publiced == FALSE){
-            if(g_order==ORDER_BACK_TO_CHARGE){
-                printf("%d\n", g_order);
-                play_wav((char*)concat(PACKAGE_PATH, "audios/back_to_charge.wav"));        
-            }
-            if(g_order == ORDER_FACE_DETECTION){
-                printf("%d\n", g_order);
-                play_wav((char*)concat(PACKAGE_PATH, "audios/operating_face_rec.wav"));
-            }
-            g_is_order_publiced = TRUE;
-        }
+        // // failes
+        // if(g_is_order_publiced == FALSE){
+        //     if(g_order==ORDER_BACK_TO_CHARGE){
+        //         printf("%d\n", g_order);
+        //         play_wav((char*)concat(PACKAGE_PATH, "audios/back_to_charge.wav"));        
+        //     }
+        //     if(g_order == ORDER_FACE_DETECTION){
+        //         printf("%d\n", g_order);
+        //         play_wav((char*)concat(PACKAGE_PATH, "audios/operating_face_rec.wav"));
+        //     }
+        //     g_is_order_publiced = TRUE;
+        // }
 
     }
     
@@ -230,7 +232,8 @@ void UI::run_UI() {
  * 
  */
 void UI::Ask_and_Response() {
-    MsgSpeakOut("Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?");
+    // MsgSpeakOut("Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?");
+    std::cout<< "Hi, this is Tom. I am here to serve you Chocolate. What brand of Chcolate do you prefer?" <<std::endl;
 
     int count = 0;
 
@@ -238,17 +241,25 @@ void UI::Ask_and_Response() {
     {
         // take user speech
         std_msgs::String result;
+        char chocolate_res;
         
-        WakeUp();
+        // // check the sentence
+        // WakeUp();
 
-        result = SpeechToTextConvention();
+        // result = SpeechToTextConvention();
 
-        std::cout<<result.data<<std::endl;
+        // std::cout<<result.data<<std::endl;
 
-        int chocolate_res = check_keywords(result.data);
+        // chocolate_res = check_keywords(result.data);
+
+        // check existence of keywords
+        chocolate_res = check_chocolate();
+
 
         if (chocolate_res == 1) {
-            MsgSpeakOut("I heard you want a kitkat. I will pick it for you!");
+            std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
+
+            // MsgSpeakOut("I heard you want a kitkat. I will pick it for you!");
             // ask for service
 
 
@@ -257,7 +268,9 @@ void UI::Ask_and_Response() {
             break;
         } else if (chocolate_res == 2)
         {
-            MsgSpeakOut("I heard you want a snickers. I will pick it for you!");
+            std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
+
+            // MsgSpeakOut("I heard you want a snickers. I will pick it for you!");
             // ask for service
 
 
@@ -266,7 +279,9 @@ void UI::Ask_and_Response() {
 
             break;
         } else {
-            MsgSpeakOut("Sorry, I have missed what you said. Could you please repeat that again?");
+            // MsgSpeakOut("Sorry, I have missed what you said. Could you please repeat that again?");
+            std::cout<<"Sorry, I have missed what you said. Could you please repeat that again?"<<std::endl;
+
         }
         
 
@@ -292,7 +307,7 @@ void UI::Ask_and_Response() {
 char UI::check_keywords(std::string sentence) {
     // std::string str = std::string(sentence);
 
-    // check each brand 
+    // check each brand with keyword defined in .h file
     for (std::unordered_map<char, std::list<std::string>>::iterator i = _chocolate_map.begin(); i != _chocolate_map.end(); i++) {
         std::cout << i->first << std::endl;
         std::list<std::string> temp = i->second;
@@ -307,4 +322,15 @@ char UI::check_keywords(std::string sentence) {
         }
     }
     return 0;
+}
+
+char UI::check_chocolate() {
+    ret = run_asr(&asr_data);
+	if (MSP_SUCCESS != ret) {
+		printf("离线语法识别出错: %d \n", ret);
+		Stop();
+	}
+    std::cout << "result from cpp" << order_result << std::endl;
+    return order_result;
+    
 }
