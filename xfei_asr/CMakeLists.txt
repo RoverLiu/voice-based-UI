@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  collabriative_bot_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -172,13 +173,13 @@ src/awaken.c
 # target_link_libraries(
 #    asr_sample
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 #  )
 
 # target_link_libraries(
 #    iat_sample
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 #  )
 
 
@@ -187,57 +188,57 @@ src/awaken.c
 # target_link_libraries(
 #    tts_subscribe_speak
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 #  )
  
 # target_link_libraries(
 #    iat_publish_speak
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
 #  )
 
 #target_link_libraries(
 #   sch_speak
 #   ${catkin_LIBRARIES} 
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 # )
 
 #target_link_libraries(
 #   sch_text
 #   ${catkin_LIBRARIES} 
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 # )
 
 # target_link_libraries(
 #    tts_sample
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 #  )
 
 #target_link_libraries(
 #   speech_recognizer
 #   ${catkin_LIBRARIES} 
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 # )
 
 #target_link_libraries(
 #   linuxrec
 #   ${catkin_LIBRARIES} 
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 # )
 #add_library(linuxrec src/linuxrec.c)
 #add_library(speech_recognizer src/speech_recognizer.c)
 #target_link_libraries(
 #   speech_recognizer
 #   ${catkin_LIBRARIES} 
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -pthread
 #   linuxrec
 # )
 
 # target_link_libraries(
 #    iat_record
 #    ${catkin_LIBRARIES} 
-#    /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+#    /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
 #    #linuxrec
 #    #speech_recognizer  
 #  )
@@ -246,17 +247,17 @@ src/awaken.c
  target_link_libraries(
   UI
   ${catkin_LIBRARIES} 
-  # /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
-  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
-  /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+  # /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/lib/libmsc.so -ldl -lpthread -lm -lrt -lasound
+  /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+  /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
   #  libmsc.so
   libasound.so
 )
 
 # target_link_libraries(awaken_test
 #   ${catkin_LIBRARIES}
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
 #   #  libmsc.so
 #   libasound.so
 #   #  libw_ivw.so
@@ -264,8 +265,8 @@ src/awaken.c
 
 # target_link_libraries(asr_offline_test
 #   ${catkin_LIBRARIES}
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
-#   /home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libmsc.so -ldl -pthread -lm -lrt -lasound
+#   /home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/libs/x64/libw_ivw.so -ldl -pthread -lm -lrt -lasound
 #   #  libmsc.so
 #   libasound.so
 #   #  libw_ivw.so

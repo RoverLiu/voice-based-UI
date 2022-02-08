@@ -39,6 +39,7 @@
 // #include "asr_record/asr_record.h"
 #include "awaken/awaken.h"
 #include "asr_record/play_audio.h"
+#include "collabriative_bot_msgs/voice_command.h"
 
 #define MAX_SIZE 100
 
@@ -69,13 +70,14 @@ class UI
 
         ros::Publisher word_to_say_pub;
         ros::Publisher word_heard_pub;
+        ros::Publisher chocolate_command_pub;
 
         
         int         ret                  = MSP_SUCCESS;
 
         // variables below might be changed based on the condition
-        const char* login_params         = "appid = 1638a95e, work_dir = ., engine_start = ivw, ivw_res_path =fo|/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";//登录参数,appid与msc库绑定,请勿随意改动
-        const char *ssb_param            = "sst=wakeup, ivw_threshold=0:1450,ivw_res_path =fo|/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";
+        const char* login_params         = "appid = 1638a95e, work_dir = ., engine_start = ivw, ivw_res_path =fo|/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";//登录参数,appid与msc库绑定,请勿随意改动
+        const char *ssb_param            = "sst=wakeup, ivw_threshold=0:1450,ivw_res_path =fo|/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/ivw/wakeupresource.jet";
         
         // maximum wake up time
         const int max_wakeup = 3 ;

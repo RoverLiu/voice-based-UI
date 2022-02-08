@@ -15,10 +15,10 @@
 #include "../include/asr_record/asr_offline_record_sample.h"
 // #include "../include/asr_record/asr_record.h"
 
-const char * ASR_RES_PATH        = "fo|/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/asr/common.jet"; //离线语法识别资源路径
-const char * GRM_BUILD_PATH      = "/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/asr/GrmBuilld"; //构建离线语法识别网络生成数据保存路径
-const char * GRM_FILE            = "/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/asr/call.bnf"; //构建离线识别语法网络所用的语法文件
-const char * LEX_NAME            = "/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/res/asr/chocolate"; //更新离线识别语法的contact槽（语法文件为此示例中使用的call.bnf）
+const char * ASR_RES_PATH        = "fo|/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/asr/common.jet"; //离线语法识别资源路径
+const char * GRM_BUILD_PATH      = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/asr/GrmBuilld"; //构建离线语法识别网络生成数据保存路径
+const char * GRM_FILE            = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/asr/call.bnf"; //构建离线识别语法网络所用的语法文件
+const char * LEX_NAME            = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/res/asr/chocolate"; //更新离线识别语法的contact槽（语法文件为此示例中使用的call.bnf）
 
 int16_t order_result = ORDER_NONE;
 

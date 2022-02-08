@@ -33,6 +33,8 @@
 #include "tts_subscribe_speak.h"
 #include "asr_record/play_audio.h"
 
+#include "collabriative_bot_msgs/voice_command.h"
+
 // int16_t g_order = ORDER_NONE;
 // BOOL g_is_order_publiced = FALSE;
 UserData asr_data;
@@ -54,6 +56,7 @@ UI::UI(ros::NodeHandle nh, ros::NodeHandle nh_priv) :_nh(nh),_nh_priv(nh_priv){
 
     word_to_say_pub = nh.advertise<std_msgs::String>("xfwords", 1000);
     word_heard_pub = nh.advertise<std_msgs::String>("xfspeech", 1000);
+    chocolate_command_pub = nh.advertise<collabriative_bot_msgs::voice_command>("chocolate2pick", 1000);
 
     // init
     init();
@@ -161,7 +164,7 @@ void UI::MsgSpeakOut(const char* text, int state) {
         sleep(30);
     } else {
         std::cout<<"enter"<<std::endl;
-        std::string absolute_address = "/home/rover/voice_test_ws/src/voice-based-UI/xfei_asr/audios/";
+        std::string absolute_address = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/audios/";
         std::string combined = absolute_address + text;
         
         int n = combined.length();
@@ -223,31 +226,6 @@ void UI::run_UI() {
             Ask_and_Response();
         }
 
-
-
-        // // speak and response (wake up)
-        // if(g_is_awaken_succeed){
-        //     printf("begin to ask and response\n");
-        //     // run_asr(&asr_data);
-        //     Ask_and_Response();
-
-        //     g_is_awaken_succeed = FALSE;
-        // }
-        // printf("%d:%d\n", g_is_order_publiced, g_order);
-
-        // // failes
-        // if(g_is_order_publiced == FALSE){
-        //     if(g_order==ORDER_BACK_TO_CHARGE){
-        //         printf("%d\n", g_order);
-        //         play_wav((char*)concat(PACKAGE_PATH, "audios/back_to_charge.wav"));        
-        //     }
-        //     if(g_order == ORDER_FACE_DETECTION){
-        //         printf("%d\n", g_order);
-        //         play_wav((char*)concat(PACKAGE_PATH, "audios/operating_face_rec.wav"));
-        //     }
-        //     g_is_order_publiced = TRUE;
-        // }
-
     }
     
 }
@@ -281,11 +259,25 @@ void UI::Ask_and_Response() {
         chocolate_res = check_chocolate();
 
 
+        // publish command
+        // // specific id for each object (details could be found in camera_handler.cpp)
+        // const int kitkat_chuncky = 15;
+        // const int kitkat_mint = 16;
+        // const int kitkat_gold = 17;
+        // const int snickers = 18;
+        // const int gripper_left = 19;
+        // const int gripper_right = 20;
+
+        collabriative_bot_msgs::voice_command my_command;
+        my_command.number_required = 1;
+
         if (chocolate_res == 1) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
             MsgSpeakOut("kitkat.wav", 1);
-            // ask for service
+            // publish command
+            my_command.chocolate_type = 15;
 
+            chocolate_command_pub.publish(my_command);
 
 
 
@@ -294,8 +286,11 @@ void UI::Ask_and_Response() {
         {
             std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
             MsgSpeakOut("snickers.wav", 1);
+            // publish command
+            my_command.chocolate_type = 18;
+            chocolate_command_pub.publish(my_command);
 
-            // ask for service
+
 
 
 
