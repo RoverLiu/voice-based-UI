@@ -155,7 +155,7 @@ static int16_t get_order(char *_xml_result){
 		return ORDER_ERROR;
 	}
 
-	// printf("message format: %s\n",_xml_result);
+	printf("message format: %s\n",_xml_result);
 
 	//get confidence
 	char *str_con_first = strstr(_xml_result,"<confidence>");
@@ -163,7 +163,7 @@ static int16_t get_order(char *_xml_result){
 	char str_confidence[4] = {'\0', '\0', '\0', '\0'};
 	strncpy(str_confidence, str_con_first+12, str_con_second - str_con_first - 12);
 	int confidence = atoi(str_confidence);
-	// printf("confidence idenfified format: %d\n",confidence);
+	printf("confidence idenfified format: %d\n",confidence);
 
 	if(confidence > CONFIDENCE_THRESHOLD){
 		printf("I am confident with the result!\n");

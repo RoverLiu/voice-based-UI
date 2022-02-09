@@ -13,7 +13,7 @@
 #define ORDER_NONE 0
 #define ORDER_FACE_DETECTION 0x0003
 #define ORDER_BACK_TO_CHARGE 0x0004
-#define CONFIDENCE_THRESHOLD 15
+#define CONFIDENCE_THRESHOLD 6
 
 
 typedef struct _UserData {

@@ -262,14 +262,13 @@ void UI::Ask_and_Response() {
         // publish command
 
         collabriative_bot_msgs::voice_command my_command;
+        my_command.chocolate_type = chocolate_res;
         my_command.number_required = 1;
 
         if (chocolate_res == kitkat_chuncky || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
             MsgSpeakOut("kitkat.wav", 1);
             // publish command
-            my_command.chocolate_type = chocolate_res;
-
             chocolate_command_pub.publish(my_command);
 
 
@@ -280,7 +279,6 @@ void UI::Ask_and_Response() {
             std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
             MsgSpeakOut("snickers.wav", 1);
             // publish command
-            my_command.chocolate_type = 18;
             chocolate_command_pub.publish(my_command);
 
 
