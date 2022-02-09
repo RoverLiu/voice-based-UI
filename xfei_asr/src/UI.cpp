@@ -260,18 +260,11 @@ void UI::Ask_and_Response() {
 
 
         // publish command
-        // // specific id for each object (details could be found in camera_handler.cpp)
-        // const int kitkat_chuncky = 15;
-        // const int kitkat_mint = 16;
-        // const int kitkat_gold = 17;
-        // const int snickers = 18;
-        // const int gripper_left = 19;
-        // const int gripper_right = 20;
 
         collabriative_bot_msgs::voice_command my_command;
         my_command.number_required = 1;
 
-        if (chocolate_res == 15 || chocolate_res == 16 || chocolate_res == 17) {
+        if (chocolate_res == kitkat_chuncky || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
             MsgSpeakOut("kitkat.wav", 1);
             // publish command
@@ -282,7 +275,7 @@ void UI::Ask_and_Response() {
 
 
             break;
-        } else if (chocolate_res == 18)
+        } else if (chocolate_res == snickers)
         {
             std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
             MsgSpeakOut("snickers.wav", 1);

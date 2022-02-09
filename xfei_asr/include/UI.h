@@ -96,6 +96,11 @@ class UI
             {2,{"snickers","snikers","snicker", "speaker", "sneaker", "snake", "brown"}}  // potential snickers
         };
 
+        // // specific id for each object (details could be found in camera_handler.cpp)
+        const int kitkat_chuncky = 28;
+        const int kitkat_mint = 30;
+        const int kitkat_gold = 29;
+        const int snickers = 26;
         
         /*
         * rdn:           合成音频数字发音方式
