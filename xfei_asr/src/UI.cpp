@@ -265,7 +265,10 @@ void UI::Ask_and_Response() {
         my_command.chocolate_type = chocolate_res;
         my_command.number_required = 1;
 
-        if (chocolate_res == kitkat_chuncky || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
+        // clear_view.bin
+        // if (chocolate_res == kitkat_chuncky || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
+        // vertical_chocolate.bin
+        if (chocolate_res == kitkat_nestle || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
             MsgSpeakOut("kitkat.wav", 1);
             // publish command
@@ -274,12 +277,14 @@ void UI::Ask_and_Response() {
 
 
             break;
-        } else if (chocolate_res == snickers)
-        {
-            std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
-            MsgSpeakOut("snickers.wav", 1);
-            // publish command
-            chocolate_command_pub.publish(my_command);
+        } 
+        // clear_view.bin
+        // else if (chocolate_res == snickers)
+        // {
+        //     std::cout<< "I heard you want a snickers. I will pick it for you!" <<std::endl;
+        //     MsgSpeakOut("snickers.wav", 1);
+        //     // publish command
+        //     chocolate_command_pub.publish(my_command);
 
 
 
@@ -287,8 +292,9 @@ void UI::Ask_and_Response() {
 
 
 
-            break;
-        } else {
+        //     break;
+        // } 
+        else {
             MsgSpeakOut("sorry.wav", 1);
             std::cout<<"Sorry, I have missed what you said. Could you please repeat that again?"<<std::endl;
 

@@ -9,22 +9,24 @@
 
 <want>:"I want"|"I would like"|"I prefer"|"Can I have"|"give me"|"I need"|"I want to have"|"I prefer to have"|"could you please";
 
+<chocolate>:"kitkat gold"!id(51)|"gold kitkat"!id(51)|"gold chocolate"!id(51)|"gold one"!id(51)|
+"kitkat mint"!id(52)|"mint choc chip"!id(52)|"mint kitkat"!id(52)|"green kitkat"!id(52)|"green chocolate"!id(52)|"green one"!id(52)|
+"kitkat nestle"!id(53)|"nestle kitkat"!id(53)|"red kitkat"!id(53)|"red chocolate"!id(53)|"red one"!id(53);
+
+
+
+
+
+
+
+
+
+/*
 <chocolate>:snickers!id(26)|"snickers bar"!id(26)|"chocolate bar"!id(26)|
 "kitkat gold"!id(29)|kitkat!id(29)|"gold kitkat"!id(29)|"gold chocolate"!id(29)|"gold one"!id(29)|
 "kitkat mint"!id(30)|"mint choc chip"!id(30)|"mint kitkat"!id(30)|"green chocolate"!id(30)|"green one"!id(30)|
-"kitkat chuncky"!id(28)|"kitkat bar"!id(28)|"chuncky kitkat"!id(28)|"red chocolate"!id(28)|"red one"!id(28);
-
-
-
-
-
-
-
-
-
-
-
-
+"kitkat chuncky"!id(27)|"kitkat bar"!id(27)|"chuncky kitkat"!id(27)|"red chocolate"!id(27)|"red one"!id(27);
+*/
 
 
 

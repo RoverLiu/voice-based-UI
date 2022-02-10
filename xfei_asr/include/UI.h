@@ -97,10 +97,16 @@ class UI
         };
 
         // // specific id for each object (details could be found in camera_handler.cpp)
-        const int kitkat_chuncky = 28;
-        const int kitkat_mint = 30;
-        const int kitkat_gold = 29;
-        const int snickers = 26;
+        // clear_view.bin
+        // const int kitkat_chuncky = 27;
+        // const int kitkat_mint = 30;
+        // const int kitkat_gold = 29;
+        // const int snickers = 26;
+        
+        // vertical_chocolate.bin
+        const int kitkat_nestle = 53;
+        const int kitkat_mint = 52;
+        const int kitkat_gold = 51;
         
         /*
         * rdn:           合成音频数字发音方式
