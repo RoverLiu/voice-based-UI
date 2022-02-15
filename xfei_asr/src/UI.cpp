@@ -268,7 +268,7 @@ void UI::Ask_and_Response() {
         // clear_view.bin
         // if (chocolate_res == kitkat_chuncky || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
         // vertical_chocolate.bin
-        if (chocolate_res == kitkat_nestle || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint) {
+        if (chocolate_res == kitkat_nestle || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint ||chocolate_res == kitkat_cookie_collision) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
             MsgSpeakOut("kitkat.wav", 1);
             // publish command

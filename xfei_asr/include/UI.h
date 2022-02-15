@@ -107,6 +107,7 @@ class UI
         const int kitkat_nestle = 53;
         const int kitkat_mint = 52;
         const int kitkat_gold = 51;
+        const int kitkat_cookie_collision = 58;
         
         /*
         * rdn:           合成音频数字发音方式
