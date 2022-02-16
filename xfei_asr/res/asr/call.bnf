@@ -5,14 +5,14 @@
 !slot <chocolate>;
 
 !start <chocolateCommand>;
-<chocolateCommand>:<want><chocolate>;
+<chocolateCommand>:[<want>]<chocolate>;
 
 <want>:"I want"|"I would like"|"I prefer"|"Can I have"|"give me"|"I need"|"I want to have"|"I prefer to have"|"could you please";
 
-<chocolate>:"kitkat gold"!id(51)|"gold kitkat"!id(51)|"gold chocolate"!id(51)|"gold one"!id(51)|
+<chocolate>:"kitkat gold"!id(61)|"golden kitkat"!id(61)|"gold kitkat"!id(61)|"gold chocolate"!id(61)|"gold one"!id(61)|"golden chocolate"!id(61)|"golden one"!id(61)|
 "kitkat mint"!id(52)|"mint choc chip"!id(52)|"mint kitkat"!id(52)|"green kitkat"!id(52)|"green chocolate"!id(52)|"green one"!id(52)|"mint chocolate"!id(52)|"mint one"!id(52)|
 "kitkat nestle"!id(53)|"nestle kitkat"!id(53)|"red kitkat"!id(53)|"red chocolate"!id(53)|"red one"!id(53)|
-"kitkat cookie collision"!id(58)|"cookie collision"!id(58)|"blue kitkat"!id(58)|"kitkat blue"!id(58)|"cookie collision kitkat"!id(58)|"blue chocolate"!id(58)|"blue one"!id(58);
+"kitkat cookie collision"!id(62)|"cookie collision"!id(62)|"blue kitkat"!id(62)|"kitkat blue"!id(62)|"cookie collision kitkat"!id(62)|"blue chocolate"!id(62)|"blue one"!id(62);
 
 
 

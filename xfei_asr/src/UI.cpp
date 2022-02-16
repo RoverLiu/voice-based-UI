@@ -163,7 +163,7 @@ void UI::MsgSpeakOut(const char* text, int state) {
         popen("mplayer -quiet -slave -input file=/tmp/cmd 'tts_sample.wav'","r");
         sleep(30);
     } else {
-        std::cout<<"enter"<<std::endl;
+        // std::cout<<"enter"<<std::endl;
         std::string absolute_address = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/audios/";
         std::string combined = absolute_address + text;
         
@@ -270,9 +270,32 @@ void UI::Ask_and_Response() {
         // vertical_chocolate.bin
         if (chocolate_res == kitkat_nestle || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint ||chocolate_res == kitkat_cookie_collision) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
-            MsgSpeakOut("kitkat.wav", 1);
-            // publish command
             chocolate_command_pub.publish(my_command);
+
+            // MsgSpeakOut("kitkat.wav", 1);
+            // give correct msg out
+            if (chocolate_res == kitkat_nestle)
+            {
+                MsgSpeakOut("red-kitkat.wav", 1);
+            }
+
+            if (chocolate_res == kitkat_gold)
+            {
+                MsgSpeakOut("gold-kitkat.wav", 1);
+            }
+
+            if (chocolate_res == kitkat_mint)
+            {
+                MsgSpeakOut("mint-choc-chip.wav", 1);
+            }
+
+            if (chocolate_res == kitkat_cookie_collision)
+            {
+                MsgSpeakOut("blue-kitkat.wav", 1);
+            }
+
+
+            // publish command
 
 
 
@@ -294,8 +317,9 @@ void UI::Ask_and_Response() {
 
         //     break;
         // } 
-        else {
-            MsgSpeakOut("sorry.wav", 1);
+        else 
+        {
+            MsgSpeakOut("pardon.wav", 1);
             std::cout<<"Sorry, I have missed what you said. Could you please repeat that again?"<<std::endl;
 
         }
@@ -304,7 +328,12 @@ void UI::Ask_and_Response() {
         count += 1;
     }
     
+    if (count == max_wakeup) 
+    {
+        MsgSpeakOut("sleep.wav", 1);
+        std::cout<<"Too much attempts. Quiting"<<std::endl;
 
+    }
     
     
     
