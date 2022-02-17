@@ -35,8 +35,6 @@
 
 #include "collabriative_bot_msgs/voice_command.h"
 
-// int16_t g_order = ORDER_NONE;
-// BOOL g_is_order_publiced = FALSE;
 UserData asr_data;
 
 /**
@@ -163,7 +161,6 @@ void UI::MsgSpeakOut(const char* text, int state) {
         popen("mplayer -quiet -slave -input file=/tmp/cmd 'tts_sample.wav'","r");
         sleep(30);
     } else {
-        // std::cout<<"enter"<<std::endl;
         std::string absolute_address = "/home/rover/collabrative_robot_ws/src/summer_research/voice-based-UI/xfei_asr/audios/";
         std::string combined = absolute_address + text;
         
@@ -178,8 +175,6 @@ void UI::MsgSpeakOut(const char* text, int state) {
 
         play_wav(char_array);
     }
-
-    
 
     printf("Mplayer Run Success\n");
     printf("\n###########################################################################\n");
@@ -225,9 +220,7 @@ void UI::run_UI() {
             printf("wake up\n");
             Ask_and_Response();
         }
-
     }
-    
 }
 
 /**
@@ -246,13 +239,10 @@ void UI::Ask_and_Response() {
         std_msgs::String result;
         char chocolate_res;
         
-        // // check the sentence
+        // // check the sentence with specific keyword (Not in use)
         // WakeUp();
-
         // result = SpeechToTextConvention();
-
         // std::cout<<result.data<<std::endl;
-
         // chocolate_res = check_keywords(result.data);
 
         // check existence of keywords
@@ -260,7 +250,6 @@ void UI::Ask_and_Response() {
 
 
         // publish command
-
         collabriative_bot_msgs::voice_command my_command;
         my_command.chocolate_type = chocolate_res;
         my_command.number_required = 1;
@@ -270,6 +259,8 @@ void UI::Ask_and_Response() {
         // vertical_chocolate.bin
         if (chocolate_res == kitkat_nestle || chocolate_res == kitkat_gold || chocolate_res == kitkat_mint ||chocolate_res == kitkat_cookie_collision) {
             std::cout<< "I heard you want a kitkat. I will pick it for you!" <<std::endl;
+
+            // publish command
             chocolate_command_pub.publish(my_command);
 
             // MsgSpeakOut("kitkat.wav", 1);
@@ -294,11 +285,6 @@ void UI::Ask_and_Response() {
                 MsgSpeakOut("blue-kitkat.wav", 1);
             }
 
-
-            // publish command
-
-
-
             break;
         } 
         // clear_view.bin
@@ -308,13 +294,6 @@ void UI::Ask_and_Response() {
         //     MsgSpeakOut("snickers.wav", 1);
         //     // publish command
         //     chocolate_command_pub.publish(my_command);
-
-
-
-
-
-
-
         //     break;
         // } 
         else 
@@ -323,19 +302,16 @@ void UI::Ask_and_Response() {
             std::cout<<"Sorry, I have missed what you said. Could you please repeat that again?"<<std::endl;
 
         }
-        
-
         count += 1;
     }
     
+    // fail to get word after three times
     if (count == max_wakeup) 
     {
         MsgSpeakOut("sleep.wav", 1);
         std::cout<<"Too much attempts. Quiting"<<std::endl;
 
     }
-    
-    
     
     return;
 }
@@ -350,7 +326,6 @@ void UI::Ask_and_Response() {
  * 2: brand snickers
  */
 char UI::check_keywords(std::string sentence) {
-    // std::string str = std::string(sentence);
 
     // check each brand with keyword defined in .h file
     for (std::unordered_map<char, std::list<std::string>>::iterator i = _chocolate_map.begin(); i != _chocolate_map.end(); i++) {
@@ -369,6 +344,11 @@ char UI::check_keywords(std::string sentence) {
     return 0;
 }
 
+/**
+ * @brief identify the audio and check the chocolate
+ * 
+ * @return char The chocolate ID picked
+ */
 char UI::check_chocolate() {
     ret = run_asr(&asr_data);
 	if (MSP_SUCCESS != ret) {
@@ -377,5 +357,4 @@ char UI::check_chocolate() {
 	}
     std::cout << "result from cpp " << order_result << std::endl;
     return order_result;
-    
 }

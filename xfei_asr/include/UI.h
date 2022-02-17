@@ -72,7 +72,6 @@ class UI
         ros::Publisher word_heard_pub;
         ros::Publisher chocolate_command_pub;
 
-        
         int         ret                  = MSP_SUCCESS;
 
         // variables below might be changed based on the condition
@@ -81,16 +80,9 @@ class UI
         
         // maximum wake up time
         const int max_wakeup = 3 ;
-        // // all potential names for snickers
-        // enum snickers {
-        //     snickers
-        // };
 
-        // // all potential names for kitkat
-        // enum kitkat {
-        //     kitkat
-        // };
-
+        // predefined keyword
+        // Not in use for current program
         std::unordered_map<char, std::list<std::string>> _chocolate_map = {
             {1,{"kitkat","kidkat","kitkad", "take care"}}, // potential kitkat
             {2,{"snickers","snikers","snicker", "speaker", "sneaker", "snake", "brown"}}  // potential snickers
