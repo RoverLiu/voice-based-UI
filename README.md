@@ -3,6 +3,8 @@ This package is a user interface for ROS developed based on [科大讯飞](https
 
 The package supports voice recognition, voice regeneration, and keyword wakeup.
 
+This package is built mainly on C code with an C++ interface in order to work with ROS.
+
 Test version:
 ROS-melodic
 Ubuntu 18.04 LTS (64 bits)
@@ -16,6 +18,11 @@ Ubuntu 18.04 LTS (64 bits)
 4. catkin_build
 ```
 One thing to notice, the bnf file defines the keywordes to identify. Modify that if you need.
+
+# run
+Run the user interface through: roslaunch xfei UI.launch
+
+Detailed functions, such as wakeup, recognition, and voice regeneration could be tested seperately by modify the cmake file and main file. 
 
 ## common error
 error code 25000 : Library did not load correctly
